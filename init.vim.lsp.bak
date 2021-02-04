@@ -1,0 +1,163 @@
+let mapleader = " "
+call plug#begin('~/.config/nvim/plugged')
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-abolish'
+Plug 'easymotion/vim-easymotion'
+Plug 'vim-airline/vim-airline', {'commit': 'c7a633c'}
+Plug 'vim-airline/vim-airline-themes'
+Plug 'rust-lang/rust.vim'
+Plug 'mattn/emmet-vim'
+Plug 'emigr2k1/nvcode-color-schemes.vim'
+Plug 'arcticicestudio/nord-vim'
+Plug 'tpope/vim-fugitive'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
+Plug 'nvim-lua/lsp-status.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'tpope/vim-eunuch'
+"Plug 'hugolgst/vimsence'
+call plug#end()
+
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+
+autocmd BufReadPost *.rs setlocal filetype=rust
+
+nmap <silent> F <cmd>Telescope find_files<CR>
+nmap <silent> R <cmd>Telescope live_grep<CR>
+nmap <silent> B <cmd>Telescope buffers<CR>
+nmap <silent> M <cmd>Telescope marks<CR>
+nmap <silent> <leader>h :tabprevious<CR>
+nmap <silent> <leader>l :tabnext<CR>
+nmap <silent> <leader>tn :tabnew<CR>
+nmap <silent> <leader><S-h> :tabmove -1<CR>
+nmap <silent> <leader><S-l> :tabmove +1<CR>
+nmap <leader>vn :vert new 
+nmap <leader>n :new 
+
+set shortmess+=c
+set completeopt=menuone,noinsert,noselect
+set termguicolors
+set signcolumn=yes
+set hidden
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+set foldlevelstart=99
+set updatetime=600
+set inccommand=split
+set mouse=a
+set tabstop=4
+set shiftwidth=4
+set softtabstop=0
+set smarttab
+set expandtab
+set number
+set list
+set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
+set completeopt-=preview
+set pumheight=20
+set cmdheight=1
+set hidden
+set scrolloff=5
+set nowrap
+set splitbelow
+set splitright
+set undodir=~/.config/nvim/.vimhis
+set undofile
+set formatoptions=tc " wrap text and comments using textwidth
+set formatoptions+=q " enable formatting of comments with gq
+set formatoptions+=n " detect lists for formatting
+set formatoptions+=b " auto-wrap in insert mode, and do not wrap old long lines
+set ignorecase
+set smartcase
+set gdefault
+set relativenumber
+set number
+set colorcolumn=110
+set exrc
+set secure
+
+nnoremap <silent> n nzz
+nnoremap <silent> N Nzz
+nnoremap <silent> * *zz
+nnoremap <silent> # #zz
+nnoremap <silent> g* g*zz
+nnoremap <silent> <leader><Esc> <Esc>:nohlsearch<CR><Esc>
+nnoremap k gk
+nnoremap j gj
+
+colorscheme nord
+colorscheme nvnord
+
+hi MatchParen guifg='white' guibg='gray'
+
+lua <<EOF
+    local lsp_status = require('lsp-status')
+    lsp_status.register_progress()
+
+    require'lspconfig'.rust_analyzer.setup{
+        on_attach=function(client)
+                require('completion').on_attach(client)
+            end,
+        settings = {
+            ["rust-analyzer"] = {
+                checkOnSave = {
+                    enable = true
+                },
+                cargo = {
+                    loadOutDirsFromCheck = true
+                },
+                procMacro = {
+                    enable = true
+                }
+            }
+        }
+    }
+
+    require'nvim-treesitter.configs'.setup {
+        ensure_installed = "maintained",
+        highlight = {
+            enable = true
+        },
+        indent = {
+            enable = true
+        }
+    }
+EOF
+
+function! LspStatus() abort
+  let status = luaeval('require("lsp-status").status()')
+  return trim(status)
+endfunction
+
+call airline#parts#define_function('lsp_status', 'LspStatus')
+call airline#parts#define_condition('lsp_status', 'luaeval("#vim.lsp.buf_get_clients() > 0")')
+
+let g:airline_section_warning = airline#section#create_right(['lsp_status'])
+
+function! ShowDiagnostics() abort
+lua <<EOF
+    opts = {}
+    vim.lsp.diagnostic.set_loclist({open_loclist = false})
+    require'telescope.builtin'.loclist(opts)
+EOF
+endfunction
+
+nmap <silent> <leader>aw <cmd>Telescope lsp_code_actions<CR>
+vmap <silent> <leader>aa <cmd>Telescope lsp_range_code_actions<CR>
+nmap <silent> <leader>o <cmd>Telescope lsp_document_symbols<CR>
+nmap <silent> <leader>O <cmd>Telescope lsp_workspace_symbols<CR>
+nmap <silent> <leader>rr <cmd>Telescope lsp_references<CR>
+nmap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nmap <silent> <leader>f <cmd>lua vim.lsp.buf.formatting_sync()<CR>
+vmap <silent> <leader>f <cmd>lua vim.lsp.buf.range_formatting()<CR>
+nmap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
+nmap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
+nmap <silent> <leader>si <cmd>lua vim.lsp.buf.signature_help()<CR>
+nmap <silent> <leader>sd <cmd>call ShowDiagnostics()<CR>
+
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
