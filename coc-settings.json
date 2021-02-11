@@ -4,6 +4,7 @@
     "rust-analyzer.checkOnSave.enable": true,
     "rust-analyzer.diagnostics.disabled": ["macro-error"],
     "rust-analyzer.completion.autoimport.enable": true,
+    "rust-analyzer.server.path": "~/.cargo/bin/rust-analyzer",
     "coc.preferences.formatOnSaveFiletypes": ["rust"],
     "suggest.maxCompleteItemCount": 500
 }

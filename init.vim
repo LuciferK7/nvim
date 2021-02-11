@@ -12,11 +12,11 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'rust-lang/rust.vim'
 Plug 'mattn/emmet-vim'
-Plug 'emigr2k1/nvcode-color-schemes.vim'
+Plug 'emi2k01/off'
+Plug 'ayu-theme/ayu-vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'arcticicestudio/nord-vim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'tpope/vim-eunuch'
 Plug 'thaerkh/vim-workspace'
 Plug 'plasticboy/vim-markdown'
@@ -97,21 +97,11 @@ nnoremap <silent> <leader><Esc> <Esc>:nohlsearch<CR><Esc>
 nnoremap k gk
 nnoremap j gj
 
-colorscheme nord
-colorscheme nvnord
+set background=dark
+let g:airline_theme = 'ayu_mirage'
+let ayucolor="dark"
+colorscheme ayu
 
 command! Coc source ~/.config/nvim/coc.vim
-
-lua <<EOF
-    require'nvim-treesitter.configs'.setup {
-        ensure_installed = "maintained",
-        highlight = {
-            enable = true
-        },
-        indent = {
-            enable = true
-        }
-    }
-EOF
 
 let g:table_mode_corner='|'
