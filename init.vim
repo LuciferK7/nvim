@@ -98,9 +98,8 @@ nnoremap k gk
 nnoremap j gj
 
 set background=dark
-let g:airline_theme = 'ayu_mirage'
-let ayucolor="dark"
-colorscheme ayu
+let g:airline_theme = 'base16_default'
+colorscheme off
 
 command! Coc source ~/.config/nvim/coc.vim
 
