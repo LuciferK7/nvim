@@ -12,7 +12,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'rust-lang/rust.vim'
 Plug 'mattn/emmet-vim'
-Plug 'emi2k01/off'
+Plug 'emi2k01/nvcode-color-schemes.vim'
 Plug 'ayu-theme/ayu-vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
@@ -21,6 +21,7 @@ Plug 'tpope/vim-eunuch'
 Plug 'thaerkh/vim-workspace'
 Plug 'plasticboy/vim-markdown'
 Plug 'dhruvasagar/vim-table-mode'
+Plug 'sjl/gundo.vim'
 call plug#end()
 
 let g:airline#extensions#tabline#enabled = 1
@@ -98,8 +99,8 @@ nnoremap k gk
 nnoremap j gj
 
 set background=dark
-let g:airline_theme = 'base16_default'
-colorscheme off
+colorscheme nord
+colorscheme nvnord
 
 command! Coc source ~/.config/nvim/coc.vim
 
