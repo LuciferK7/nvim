@@ -1,7 +1,7 @@
 let mapleader = " "
 call plug#begin('~/.config/nvim/plugged')
 Plug 'preservim/nerdtree'
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'for': ['rust']}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-abolish'
 Plug 'nvim-lua/popup.nvim'
@@ -102,6 +102,6 @@ set background=dark
 colorscheme nord
 colorscheme nvnord
 
-command! Coc source ~/.config/nvim/coc.vim
+source ~/.config/nvim/coc.vim
 
 let g:table_mode_corner='|'
