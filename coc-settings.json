@@ -4,6 +4,14 @@
     "rust-analyzer.checkOnSave.enable": true,
     "rust-analyzer.diagnostics.disabled": ["macro-error"],
     "rust-analyzer.completion.autoimport.enable": true,
+    "latex.build.onSave": true,
+    "latex.build.outputDirectory": "./out",
+    "latex.build.args": [
+        "-pdf",
+        "-interaction=nonstopmode",
+        "-synctex=1",
+        "-output-directory=out"
+    ],
     "coc.preferences.formatOnSaveFiletypes": ["rust"],
     "suggest.maxCompleteItemCount": 500
 }

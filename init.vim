@@ -4,9 +4,6 @@ Plug 'preservim/nerdtree'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-abolish'
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
 Plug 'easymotion/vim-easymotion'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -21,7 +18,9 @@ Plug 'tpope/vim-eunuch'
 Plug 'thaerkh/vim-workspace'
 Plug 'plasticboy/vim-markdown'
 Plug 'dhruvasagar/vim-table-mode'
-Plug 'sjl/gundo.vim'
+Plug 'junegunn/fzf.vim'
+Plug 'mbbill/undotree'
+Plug 'lervag/vimtex'
 call plug#end()
 
 let g:airline#extensions#tabline#enabled = 1
@@ -30,15 +29,15 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:NERDTreeUseTCD = 1
 
 autocmd vimenter * NERDTree | wincmd p
-autocmd BufWritePost * NERDTreeFocus | execute 'normal R' | wincmd p
+"autocmd BufWritePost * NERDTreeFocus | execute 'normal R' | wincmd p
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 autocmd BufReadPost *.rs setlocal filetype=rust
 
-nmap <silent> F <cmd>Telescope find_files<CR>
-nmap <silent> R <cmd>Telescope live_grep<CR>
-nmap <silent> B <cmd>Telescope buffers<CR>
-nmap <silent> M <cmd>Telescope marks<CR>
+nmap <silent> F <cmd>Files<CR>
+nmap <silent> R <cmd>Rg<CR>
+nmap <silent> B <cmd>Buffers<CR>
+nmap <silent> M <cmd>Marks<CR>
 nmap <silent> <leader>h :tabprevious<CR>
 nmap <silent> <leader>l :tabnext<CR>
 nmap <silent> <leader>tn :tabnew<CR>
@@ -88,6 +87,7 @@ set number
 set colorcolumn=110
 set exrc
 set secure
+set clipboard=unnamed
 
 nnoremap <silent> n nzz
 nnoremap <silent> N Nzz
