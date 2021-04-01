@@ -5,26 +5,21 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-abolish'
 Plug 'easymotion/vim-easymotion'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'rust-lang/rust.vim'
-Plug 'mattn/emmet-vim'
+Plug 'mattn/emmet-vim', {'for': 'html'}
 Plug 'emi2k01/nvcode-color-schemes.vim'
-Plug 'ayu-theme/ayu-vim'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
+"Plug 'ayu-theme/ayu-vim'
+"Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround', {'for': 'html'}
 Plug 'arcticicestudio/nord-vim'
 Plug 'tpope/vim-eunuch'
 Plug 'thaerkh/vim-workspace'
-Plug 'plasticboy/vim-markdown'
-Plug 'dhruvasagar/vim-table-mode'
+Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
+Plug 'dhruvasagar/vim-table-mode', {'for': 'markdown'}
 Plug 'junegunn/fzf.vim'
 Plug 'mbbill/undotree'
-Plug 'lervag/vimtex'
+Plug 'lervag/vimtex', {'for': 'latex'}
 call plug#end()
-
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 let g:NERDTreeUseTCD = 1
 
