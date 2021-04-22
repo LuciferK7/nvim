@@ -1,6 +1,7 @@
 require('plugins')
 
 require('feline').setup()
+require('nvim-autopairs').setup()
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -11,7 +12,8 @@ require('lspconfig').rust_analyzer.setup({
     settings = {
     ["rust-analyzer"] = {
         checkOnSave = {
-            enable = true
+            enable = true,
+            overrideCommand = {"scargo", "check", "--message-format=json"}
         },
         cargo = {
             loadOutDirsFromCheck = true
@@ -131,3 +133,31 @@ vim.api.nvim_set_keymap('n', '<leader><S-h>', "<cmd>tabmove -1<CR>", {})
 vim.api.nvim_set_keymap('n', '<leader>ne', ':exec "tcd " . expand("%:p:h")<CR>:exec "NERDTree"<CR><C-w>p', {})
 
 vim.cmd('autocmd vimenter * NERDTree | wincmd p')
+
+local remap = vim.api.nvim_set_keymap
+local npairs = require('nvim-autopairs')
+
+-- skip it, if you use another global object
+_G.MUtils= {}
+
+vim.g.completion_confirm_key = ""
+
+MUtils.completion_confirm=function()
+  if vim.fn.pumvisible() ~= 0  then
+    if vim.fn.complete_info()["selected"] ~= -1 then
+      require'completion'.confirmCompletion()
+      return npairs.esc("<c-y>")
+    else
+      vim.api.nvim_select_popupmenu_item(0 , false , false ,{})
+      require'completion'.confirmCompletion()
+      return npairs.esc("<c-n><c-y>")
+    end
+  else
+    return npairs.autopairs_cr()
+  end
+end
+
+
+remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
+
+vim.cmd("autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif")

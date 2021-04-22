@@ -12,4 +12,7 @@ return require('packer').startup(function()
         requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
     }
     use 'preservim/nerdtree'
+    use 'windwp/nvim-autopairs'
+    use 'nvim-treesitter/nvim-treesitter'
+    use 'mg979/vim-visual-multi'
 end)
