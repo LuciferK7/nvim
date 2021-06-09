@@ -3,16 +3,16 @@ return require('packer').startup(function()
     use 'neovim/nvim-lspconfig'
     use 'kyazdani42/nvim-web-devicons'
     use 'famiu/feline.nvim'
-    use 'emi2k01/nvcode-color-schemes.vim'
+    use 'emi2k01/nord-vim'
     use 'hrsh7th/nvim-compe'
     use 'hrsh7th/vim-vsnip'
     use 'hrsh7th/vim-vsnip-integ'
-    use {
-        'nvim-telescope/telescope.nvim',
-        requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
-    }
+    use 'junegunn/fzf.vim'
     use 'preservim/nerdtree'
-    use 'windwp/nvim-autopairs'
-    use 'nvim-treesitter/nvim-treesitter'
+    use 'mbbill/undotree'
     use 'mg979/vim-visual-multi'
+    use 'nvim-treesitter/nvim-treesitter'
+    use 'tpope/vim-fugitive'
+    use 'andweeb/presence.nvim'
+    use 'easymotion/vim-easymotion'
 end)

@@ -75,17 +75,17 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/emi2k01/.local/share/nvim/site/pack/packer/start/feline.nvim"
   },
+  ["fzf.vim"] = {
+    loaded = true,
+    path = "/home/emi2k01/.local/share/nvim/site/pack/packer/start/fzf.vim"
+  },
   nerdtree = {
     loaded = true,
     path = "/home/emi2k01/.local/share/nvim/site/pack/packer/start/nerdtree"
   },
-  ["nvcode-color-schemes.vim"] = {
+  ["nord-vim"] = {
     loaded = true,
-    path = "/home/emi2k01/.local/share/nvim/site/pack/packer/start/nvcode-color-schemes.vim"
-  },
-  ["nvim-autopairs"] = {
-    loaded = true,
-    path = "/home/emi2k01/.local/share/nvim/site/pack/packer/start/nvim-autopairs"
+    path = "/home/emi2k01/.local/share/nvim/site/pack/packer/start/nord-vim"
   },
   ["nvim-compe"] = {
     loaded = true,
@@ -107,17 +107,21 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/emi2k01/.local/share/nvim/site/pack/packer/start/packer.nvim"
   },
-  ["plenary.nvim"] = {
+  ["presence.nvim"] = {
     loaded = true,
-    path = "/home/emi2k01/.local/share/nvim/site/pack/packer/start/plenary.nvim"
+    path = "/home/emi2k01/.local/share/nvim/site/pack/packer/start/presence.nvim"
   },
-  ["popup.nvim"] = {
+  undotree = {
     loaded = true,
-    path = "/home/emi2k01/.local/share/nvim/site/pack/packer/start/popup.nvim"
+    path = "/home/emi2k01/.local/share/nvim/site/pack/packer/start/undotree"
   },
-  ["telescope.nvim"] = {
+  ["vim-easymotion"] = {
     loaded = true,
-    path = "/home/emi2k01/.local/share/nvim/site/pack/packer/start/telescope.nvim"
+    path = "/home/emi2k01/.local/share/nvim/site/pack/packer/start/vim-easymotion"
+  },
+  ["vim-fugitive"] = {
+    loaded = true,
+    path = "/home/emi2k01/.local/share/nvim/site/pack/packer/start/vim-fugitive"
   },
   ["vim-visual-multi"] = {
     loaded = true,

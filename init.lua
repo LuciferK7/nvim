@@ -1,7 +1,8 @@
+vim.env.FZF_DEFAULT_COMMAND = "rg --files --ignore-vcs"
+
 require('plugins')
 
 require('feline').setup()
-require('nvim-autopairs').setup()
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -12,54 +13,49 @@ require('lspconfig').rust_analyzer.setup({
     settings = {
     ["rust-analyzer"] = {
         checkOnSave = {
-            enable = true,
-            overrideCommand = {"scargo", "check", "--message-format=json"}
-        },
-        cargo = {
-            loadOutDirsFromCheck = true
-        },
-        procMacro = {
-            enable = true
-        },
+            enable = false,
+        }
     }
 }
 })
 
-require('compe').setup {
-    enabled = true;
+require'compe'.setup {
+  enabled = true;
     autocomplete = true;
-    debug = false;
+  debug = false;
     min_length = 1;
-    preselect = 'enable';
+  preselect = 'enable';
     throttle_time = 80;
-    source_timeout = 200;
+  source_timeout = 200;
     incomplete_delay = 400;
-    max_abbr_width = 100;
+  max_abbr_width = 100;
     max_kind_width = 100;
-    max_menu_width = 100;
+  max_menu_width = 100;
     documentation = true;
 
-    source = {
+  source = {
       path = true;
       buffer = true;
       calc = true;
       nvim_lsp = true;
       nvim_lua = true;
       vsnip = true;
+      ultisnips = true;
     };
 }
 
-vim.api.nvim_command("colorscheme nvcode")
+
+vim.g.mapleader = " "
+vim.api.nvim_command("colorscheme nord")
 
 vim.o.shortmess = vim.o.shortmess .. "c"
-vim.o.completeopt = "menuone,noinsert"
 vim.o.termguicolors = true
 vim.o.hidden = true
 vim.o.updatetime = 600
 vim.o.inccommand = "split"
 vim.o.mouse = "a"
 vim.o.listchars = "tab:» ,extends:›,precedes:‹,nbsp:·,trail:·"
-vim.o.completeopt = "menu,menuone,noselect"
+vim.o.completeopt = "menuone,noselect"
 vim.o.pumheight = 20
 vim.o.cmdheight = 1
 vim.o.hidden = true
@@ -91,30 +87,11 @@ vim.wo.wrap = false
 vim.wo.relativenumber = true
 vim.wo.colorcolumn = "110"
 
-vim.g.completion_enable_snippet = "snippets.nvim"
-
-function _G.snippet_expand(key)
-    if vim.fn['vsnip#jumpable'](1) == 1 then
-        return vim.cmd('<Plug>(vsnip-jump-next)')
-    else
-        return vim.api.nvim_replace_termcodes(key, true, true, true)
-    end
-end
-
-vim.g.mapleader = " "
-
-vim.api.nvim_set_keymap('i', '<Tab>', "vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>'", {expr = true, silent = true})
-vim.api.nvim_set_keymap('s', '<Tab>', "vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>'", {expr = true, silent = true})
-vim.api.nvim_set_keymap('i', '<S-Tab>', "vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>'", {expr = true, silent = true})
-vim.api.nvim_set_keymap('s', '<S-Tab>', "vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>'", {expr = true, silent = true})
-
-vim.api.nvim_set_keymap('i', '<CR>', "compe#confirm('<CR>')", {expr = true, silent = true, silent = true, noremap = true})
-
-vim.api.nvim_set_keymap('n', 'F', "<cmd>Telescope find_files<CR>", {})
-vim.api.nvim_set_keymap('n', 'R', "<cmd>Telescope live_grep<CR>", {})
-vim.api.nvim_set_keymap('n', 'B', "<cmd>Telescope buffers<CR>", {})
-vim.api.nvim_set_keymap('n', 'H', "<cmd>Telescope highlights<CR>", {})
-vim.api.nvim_set_keymap('n', 'M', "<cmd>Telescope marks<CR>", {})
+vim.api.nvim_set_keymap('n', '<leader>F', "<cmd>Files<CR>", {})
+vim.api.nvim_set_keymap('n', '<leader>R', "<cmd>Rg<CR>", {})
+vim.api.nvim_set_keymap('n', '<leader>B', "<cmd>Buffers<CR>", {})
+vim.api.nvim_set_keymap('n', '<leader>M', "<cmd>Marks<CR>", {})
+vim.api.nvim_set_keymap('n', '<leader>H', "<cmd>History:<CR>", {})
 
 vim.api.nvim_set_keymap('n', '<leader><Esc>', "<Esc>:noh<CR><Esc>", {})
 vim.api.nvim_set_keymap('n', 'n', "nzz", {})
@@ -130,34 +107,39 @@ vim.api.nvim_set_keymap('n', '<leader>tn', "<cmd>tabnew<CR>", {})
 vim.api.nvim_set_keymap('n', '<leader><S-l>', "<cmd>tabmove 1<CR>", {})
 vim.api.nvim_set_keymap('n', '<leader><S-h>', "<cmd>tabmove -1<CR>", {})
 
-vim.api.nvim_set_keymap('n', '<leader>ne', ':exec "tcd " . expand("%:p:h")<CR>:exec "NERDTree"<CR><C-w>p', {})
-
-vim.cmd('autocmd vimenter * NERDTree | wincmd p')
+vim.api.nvim_set_keymap('n', '<leader>cd', ':exec "tcd " . expand("%:p:h")<CR>', {silent = true})
+vim.api.nvim_set_keymap('n', '<leader>ne', '<cmd>NERDTreeToggle<CR><cmd>NERDTreeCWD<CR>', {})
 
 local remap = vim.api.nvim_set_keymap
-local npairs = require('nvim-autopairs')
-
--- skip it, if you use another global object
-_G.MUtils= {}
-
-vim.g.completion_confirm_key = ""
-
-MUtils.completion_confirm=function()
-  if vim.fn.pumvisible() ~= 0  then
-    if vim.fn.complete_info()["selected"] ~= -1 then
-      require'completion'.confirmCompletion()
-      return npairs.esc("<c-y>")
-    else
-      vim.api.nvim_select_popupmenu_item(0 , false , false ,{})
-      require'completion'.confirmCompletion()
-      return npairs.esc("<c-n><c-y>")
-    end
-  else
-    return npairs.autopairs_cr()
-  end
-end
-
-
-remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
 
 vim.cmd("autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif")
+vim.cmd("autocmd FileType qf setlocal wrap")
+
+function _G.tab_expand()
+    if vim.fn.pumvisible() == 1 then
+        if vim.fn.complete_info({"selected"})["selected"] == -1 then
+            vim.api.nvim_input("<C-n><Tab>")
+        end
+        return vim.fn.call("compe#confirm", {''})
+    elseif vim.fn.call("vsnip#jumpable", {1}) == 1 then
+        return vim.api.nvim_replace_termcodes('<Plug>(vsnip-jump-next)', true, true, true)
+    else
+        return vim.api.nvim_replace_termcodes('<Tab>', true, true, true)
+    end
+end
+
+vim.api.nvim_set_keymap('i', '<Tab>', "v:lua.tab_expand()", {expr = true})
+vim.api.nvim_set_keymap('s', '<Tab>', "vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>'", {expr = true, silent = true})
+vim.api.nvim_set_keymap('s', '<S-Tab>', "vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>'", {expr = true, silent = true})
+
+function _G.list_diagnostics()
+    vim.lsp.diagnostic.set_loclist()
+    vim.cmd("lopen")
+end
+
+vim.api.nvim_set_keymap('n', '<leader>sd', '<cmd>call v:lua.list_diagnostics()<CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>aw', '<cmd>lua vim.lsp.buf.code_action()<CR>', {})
+vim.api.nvim_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', {})
+vim.api.nvim_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', {})
